@@ -1,0 +1,12 @@
+set -e
+
+
+cp -r lib/* ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}
+tar xvf lib/lzo-2.10.tar
+cd lib/lzo-2.10./
+
+./configure --prefix=$BOSH_INSTALL_TARGET
+./make 
+./make install

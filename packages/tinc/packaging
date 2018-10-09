@@ -7,6 +7,7 @@ cd ${BOSH_INSTALL_TARGET}
 tar xvf tinc-1.1pre17.tar
 cd tinc-1.1pre17/
 
-./configure
+./configure --prefix=$BOSH_INSTALL_TARGET
 ./make 
 ./make install
+

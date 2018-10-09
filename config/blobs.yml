@@ -1,3 +1,8 @@
+lib/lzo-2.10.tar:
+  size: 3328000
+  object_id: d6cb1966-36e5-4825-7655-96c0f2bb01f7
+  sha: 76b9de40af25c50121e67cf4f358fe5e43e5b927
 tinc/tinc-1.1pre17.tar:
   size: 3532800
+  object_id: 53e89179-3dde-4418-521e-8c4e2aaa69ae
   sha: 007e77e636c4fb549bec3b86054b82a365dd0d5d

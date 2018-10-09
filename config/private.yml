@@ -1,0 +1,6 @@
+---
+blobstore:
+  provider: s3
+  options:
+    access_key_id: AKIAIVXCLKHN5S4ISN5Q
+    secret_access_key: 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
