@@ -1,6 +1,5 @@
 check process tinc
-  with pidfile /var/vcap/sys/run/tinc/pid
-  start program "/var/vcap/jobs/tinc/bin/monit_debugger tinc_ctl '/var/vcap/jobs/tinc/bin/tinc_ctl start'"
-  stop program "/var/vcap/jobs/tinc/bin/monit_debugger tinc_ctl '/var/vcap/jobs/tinc/bin/tinc_ctl stop'"
+  with pidfile /var/vcap/sys/run/tinc/pid  
+  start program "/var/vcap/jobs/tinc/tinc_ctl start"
+  stop program "/var/vcap/jobs/tinc/tinc_ctl stop"
   group vcap
-

@@ -75,7 +75,7 @@ properties:
     default: no
   tinc.device:
     description: The virtual network device to use
-    default: /dev/tap0
+    default: tun0
   tinc.device_standby:
     description: When disabled, tinc calls tinc-up on startup, and tinc-down on shutdown
     default: no
