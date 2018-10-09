@@ -1,1 +1,7 @@
-config/final.yml
+.dev_builds/*
+private.yml
+blobs/*
+/tiles/*/**
+!/tiles/icon/*
+/tiles/tile.yml
+dev_releases
