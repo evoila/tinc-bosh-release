@@ -22,7 +22,9 @@ instance_groups:
   vm_type: default
   stemcell: default
   networks:
-  - name: default
+  - name: service
+  azs:
+  - z1
   jobs:
   - name: tinc
     release: tinc-vpn

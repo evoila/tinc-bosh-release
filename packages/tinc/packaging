@@ -1,13 +1,13 @@
 set -e
 
-
 cp -r tinc/* ${BOSH_INSTALL_TARGET}
 
 cd ${BOSH_INSTALL_TARGET}
 tar xvf tinc-1.1pre17.tar
 cd tinc-1.1pre17/
 
-./configure --prefix=$BOSH_INSTALL_TARGET
-./make 
-./make install
+./configure --prefix=/var/vcap/packages/tinc \
+    --disable-lzo
+make 
+make install
 

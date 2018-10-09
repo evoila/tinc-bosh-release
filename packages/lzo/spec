@@ -1,4 +1,4 @@
 ---
 name: lzo
 files:
-- tinc/*
+- lib/*

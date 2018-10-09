@@ -4,8 +4,8 @@ set -e
 path=$(dirname $0)
 
 cd $path
-bosh -e vbox create-release --force
+bosh create-release --force
 
-bosh -e vbox upload-release
+bosh upload-release
 
-bosh -e vbox -d tinc deploy manifests/tinc-dev-local.yml -n 
+bosh -d tinc deploy manifests/tinc-dev-local.yml -n 
