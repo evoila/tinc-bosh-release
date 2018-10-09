@@ -4,29 +4,34 @@
 set -e
 
 
-PATH=/var/vcap/packages/tinc/bin:$PATH
+PATH=/var/vcap/packages/tinc/sbin:$PATH
 PID_FILE=/var/vcap/sys/run/tinc/pid
+LOG_DIR=/var/vcap/sys/log/tinc/
 
 NAME=tinc
 USER=vcap
 
 function createHostsFiles(){
-    NETWORK_NAME=<%= p('tinc.network.name') %>
-    TINC_PATH=/etc/tinc/$NETWORK_NAME/hosts
-    mkdir -p /etc/tinc/$NETWORK_NAME/hosts
+    NETWORK_NAME=<%= p('tinc.name') %>
+    TINC_PATH=/var/vcap/packages/tinc/etc/tinc/$NETWORK_NAME
+    HOST_PATH=$TINC_PATH/hosts
+    if  [ ! -d $HOST_PATH ]; then
+    mkdir -p $HOST_PATH
 
-    <% link('nodes').each_with_index do |link, index| %>    
-        HOSTFILE=$TINC_PATH/<%= link.instance.address %>
+    <% link('nodes').instances.each_with_index do |instance, index| %>    
+        HOSTFILE=$HOST_PATH/<%= instance.address %>
 
-        echo "Address = <%= link.instance.address %>" > $HOSTFILE
-        echo "Subnet = <%= p('tinc.network.cidr') %>" > $HOSTFILE
-        echo "<%= link.p('publickey') %>" > $HOSTFILE
+        echo "Address = <%= instance.address %>" > $HOSTFILE
+        echo "Subnet = <%= p('tinc.cidr') %>" > $HOSTFILE
+        echo "<%= link('nodes').p('tinc.public_key') %>" > $HOSTFILE
     <% end %>
-
-    echo "<%= p('publickey') %>" > $TINC_PATH/rsa_key.priv
-    echo "ifconfig <%= p('tinc.network.device') %> <%= p('tinc.network.ip') %> netmask <%= p('tinc.network.mask') %>" > $TINC_PATH/tinc-up
+:   
+    echo "<%= p('tinc.private_key') %>" > $TINC_PATH/rsa_key.priv
+    chmod 600 $TINC_PATH/rsa_key.priv
+    echo "ifconfig <%= p('tinc.device') %> <%= p('tinc.ip') %> netmask <%= p('tinc.netmask') %>" > $TINC_PATH/tinc-up
     chmod +x $TINC_PATH/tinc-up
-    cp config/tinc.conf $NETWORK_NAME/
+    cp config/tinc.conf $TINC_PATH
+    fi
 }
 
 
@@ -34,7 +39,9 @@ function createHostsFiles(){
 case "$1" in
     start)
         createHostsFiles
-        tinc -n <%= p('tinc.network.name') %> --pidfile $PID_FILE
+        tincd -n <%= p('tinc.name') %> --pidfile $PID_FILE -D -d3 2>$LOG_DIR/stderr.log >$LOG_DIR/stdout.log
+         
+
         ;;
     stop)
 

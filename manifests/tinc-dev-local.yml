@@ -22,9 +22,20 @@ instance_groups:
   vm_type: default
   stemcell: default
   networks:
-  - name: service
-  azs:
-  - z1
+  - name: default
+
   jobs:
   - name: tinc
     release: tinc-vpn
+  properties:
+    tinc:
+      name: test
+      ip: 10.96.15.5
+      netmask: 255.255.255.0
+      cidr: 10.96.15.0/24
+      private_key: ((key.private_key))
+      public_key: ((key.public_key))
+
+variables:
+- name: key
+  type: rsa
