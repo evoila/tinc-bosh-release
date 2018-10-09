@@ -1,0 +1,13 @@
+---
+name: tinc
+
+description: ""
+
+packages:
+- tinc
+
+
+templates:
+  tinc_ctl.erb: tinc_ctl
+
+properties:

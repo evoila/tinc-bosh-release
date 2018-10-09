@@ -1,0 +1,15 @@
+name: tinc-vpn
+version: 0+dev.3
+commit_hash: non-git
+uncommitted_changes: false
+jobs:
+- name: tinc
+  version: 72234f761a810f85b5ee8f2742b30bbb18da0e01
+  fingerprint: 72234f761a810f85b5ee8f2742b30bbb18da0e01
+  sha1: 0c2dcec3b4a05bf8bf22517b049fe2693c1eccb4
+packages:
+- name: tinc
+  version: 38ff8cda9d1fd4a075e171e2588bbfba4aa49b8d
+  fingerprint: 38ff8cda9d1fd4a075e171e2588bbfba4aa49b8d
+  sha1: 62dd241b63f5075549df96e17284183f78999c23
+  dependencies: []

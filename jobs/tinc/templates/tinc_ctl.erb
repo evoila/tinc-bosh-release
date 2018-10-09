@@ -1,0 +1,29 @@
+#!/bin/bash
+
+
+set -e
+
+
+PATH=/var/vcap/packages/tinc/bin:$PATH
+PID_FILE=/var/vcap/sys/run/tinc/pid
+
+NAME=tinc
+USER=vcap
+
+
+case "$1" in
+    start)
+
+    
+        ;;
+    stop)
+
+        
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|reload|force-reload}" >&2
+        RETVAL=1
+        ;;
+esac
+
+exit "${RETVAL}"

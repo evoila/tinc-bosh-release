@@ -1,0 +1,12 @@
+set -e
+
+
+cp -r tinc/* ${BOSH_INSTALL_TARGET}
+
+cd ${BOSH_INSTALL_TARGET}
+tar xvf tinc-1.1pre17.tar
+cd tinc-1.1pre17/
+
+./configure
+./make 
+./make install
