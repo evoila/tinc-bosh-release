@@ -2,3 +2,6 @@
 name: tinc
 files:
 - tinc/*
+
+dependencies:
+- lzo
