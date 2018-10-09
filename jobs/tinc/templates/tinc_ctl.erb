@@ -10,11 +10,31 @@ PID_FILE=/var/vcap/sys/run/tinc/pid
 NAME=tinc
 USER=vcap
 
+function createHostsFiles(){
+    NETWORK_NAME=<%= p('tinc.network.name') %>
+    TINC_PATH=/etc/tinc/$NETWORK_NAME/hosts
+    mkdir -p /etc/tinc/$NETWORK_NAME/hosts
+
+    <% link('nodes').each_with_index do |link, index| %>    
+        HOSTFILE=$TINC_PATH/<%= link.instance.address %>
+
+        echo "Address = <%= link.instance.address %>" > $HOSTFILE
+        echo "Subnet = <%= p('tinc.network.cidr') %>" > $HOSTFILE
+        echo "<%= link.p('publickey') %>" > $HOSTFILE
+    <% end %>
+
+    echo "<%= p('publickey') %>" > $TINC_PATH/rsa_key.priv
+    echo "ifconfig <%= p('tinc.network.device') %> <%= p('tinc.network.ip') %> netmask <%= p('tinc.network.mask') %>" > $TINC_PATH/tinc-up
+    chmod +x $TINC_PATH/tinc-up
+    cp config/tinc.conf $NETWORK_NAME/
+}
+
+
 
 case "$1" in
     start)
-
-    
+        createHostsFiles
+        tinc -n <%= p('tinc.network.name') %> --pidfile $PID_FILE
         ;;
     stop)
 

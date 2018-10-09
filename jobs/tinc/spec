@@ -9,5 +9,6 @@ packages:
 
 templates:
   tinc_ctl.erb: tinc_ctl
+  config/tinc-up.conf.erb: config/tinc-up.conf
 
 properties:
