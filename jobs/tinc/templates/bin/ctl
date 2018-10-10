@@ -40,10 +40,10 @@ function createHostsFiles(){
     <% end %>
 
     echo "<%= p('tinc.private_key') %>" > $TINC_PATH/rsa_key.priv
-    chmod 600 $TINC_PATH/rsa_key.priv
+    #chmod 600 $TINC_PATH/rsa_key.priv
     echo "ifconfig <%= p('tinc.device') %> <%= p('tinc.ip') %>.<%= index + 10 %> netmask <%= p('tinc.netmask') %>" > $TINC_PATH/tinc-up
     chmod +x $TINC_PATH/tinc-up
-    cp ../config/tinc.conf $TINC_PATH
+    cp /var/vcap/jobs/tinc/config/tinc.conf $TINC_PATH/
 
 }
 
@@ -52,13 +52,14 @@ function createHostsFiles(){
 case "$1" in
     start)
         createHostsFiles
-        tincd -n <%= p('tinc.name') %> --pidfile $PID_FILE \
+chpst -u root:root    tincd -n <%= p('tinc.name') %> --pidfile $PID_FILE \
             -D \
-            -d3 2>$LOG_DIR/stderr.log >$LOG_DIR/stdout.log &
+            -d3 2>>$LOG_DIR/stderr.log >>$LOG_DIR/stdout.log &
         RETVAL=0
         ;;
     stop)
-
+	killall tincd
+	rm-rf $PID_FILE
         
         ;;
     *)
@@ -67,4 +68,4 @@ case "$1" in
         ;;
 esac
 
-exit "${RETVAL}"
+exit 0
