@@ -18,17 +18,17 @@ function createHostsFiles(){
     
     mkdir -p $HOST_PATH
 
-    <% link('nodes').instances.each_with_index do |instance, index| %>    
+    <% link('nodes').instances.each_with_index do |instance, index| %>        
         HOSTFILE=$HOST_PATH/node<%= index %>
-
-        echo "Address = <%= instance.address %>" >> $HOSTFILE
+        rm $HOSTFILE
+        echo "Address = <%= p('tinc.ip') %>.<%= index + 10 %>" >> $HOSTFILE
         echo "Subnet = <%= p('tinc.cidr') %>" >> $HOSTFILE
         echo "<%= link('nodes').p('tinc.public_key') %>" >> $HOSTFILE
     <% end %>
 
     echo "<%= p('tinc.private_key') %>" > $TINC_PATH/rsa_key.priv
     chmod 600 $TINC_PATH/rsa_key.priv
-    echo "ifconfig <%= p('tinc.device') %> <%= p('tinc.ip') %> netmask <%= p('tinc.netmask') %>" > $TINC_PATH/tinc-up
+    echo "ifconfig <%= p('tinc.device') %> <%= p('tinc.ip') %>.<%= index + 10 %> netmask <%= p('tinc.netmask') %>" > $TINC_PATH/tinc-up
     chmod +x $TINC_PATH/tinc-up
     cp config/tinc.conf $TINC_PATH
 

@@ -43,7 +43,7 @@ properties:
   tinc.subnet:
     description: The subnet which this tinc daemon will serve
   tinc.ip:    
-    description: Subnet Ip of the Node
+    description: First three octects of the IP address used
   tinc.cidr:    
     description: Subnet CIRD
   tinc.netmask:    

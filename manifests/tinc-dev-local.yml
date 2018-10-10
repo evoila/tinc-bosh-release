@@ -18,7 +18,7 @@ stemcells:
 
 instance_groups:
 - name: tinc
-  instances: 1
+  instances: 2
   vm_type: default
   stemcell: default
   networks:
@@ -31,7 +31,7 @@ instance_groups:
   properties:
     tinc:
       name: test
-      ip: 10.96.15.5
+      ip: 10.96.15
       netmask: 255.255.255.0
       cidr: 10.96.15.0/24
       private_key: ((key.private_key))
