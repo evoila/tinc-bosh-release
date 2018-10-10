@@ -3,13 +3,24 @@
 
 set -e
 
-
 PATH=/var/vcap/packages/tinc/sbin:$PATH
-PID_FILE=/var/vcap/sys/run/tinc/pid
+PID_FILE=/var/vcap/sys/run/tinc/tinc.pid
 LOG_DIR=/var/vcap/sys/log/tinc/
 
 NAME=tinc
 USER=vcap
+
+JOB_NAME=tinc
+export RUN_DIR=/var/vcap/sys/run/$JOB_NAME
+export LOG_DIR=/var/vcap/sys/log/$JOB_NAME
+export TMP_DIR=/var/vcap/sys/tmp/$JOB_NAME
+export STORE_DIR=/var/vcap/store/$JOB_NAME
+for dir in $RUN_DIR $LOG_DIR $TMP_DIR $STORE_DIR
+do
+  mkdir -p ${dir}
+  chown vcap:vcap ${dir}
+  chmod 775 ${dir}
+done
 
 function createHostsFiles(){
     NETWORK_NAME=<%= p('tinc.name') %>
@@ -20,7 +31,9 @@ function createHostsFiles(){
 
     <% link('nodes').instances.each_with_index do |instance, index| %>        
         HOSTFILE=$HOST_PATH/node<%= index %>
-        rm $HOSTFILE
+        if [ -f $HOSTFILE ]; then
+            rm $HOSTFILE
+        fi
         echo "Address = <%= p('tinc.ip') %>.<%= index + 10 %>" >> $HOSTFILE
         echo "Subnet = <%= p('tinc.cidr') %>" >> $HOSTFILE
         echo "<%= link('nodes').p('tinc.public_key') %>" >> $HOSTFILE
