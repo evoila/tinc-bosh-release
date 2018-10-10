@@ -43,7 +43,7 @@ function createHostsFiles(){
     chmod 600 $TINC_PATH/rsa_key.priv
     echo "ifconfig <%= p('tinc.device') %> <%= p('tinc.ip') %>.<%= index + 10 %> netmask <%= p('tinc.netmask') %>" > $TINC_PATH/tinc-up
     chmod +x $TINC_PATH/tinc-up
-    cp config/tinc.conf $TINC_PATH
+    cp ../config/tinc.conf $TINC_PATH
 
 }
 
