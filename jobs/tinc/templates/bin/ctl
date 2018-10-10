@@ -55,7 +55,7 @@ case "$1" in
         tincd -n <%= p('tinc.name') %> --pidfile $PID_FILE \
             -D \
             -d3 2>$LOG_DIR/stderr.log >$LOG_DIR/stdout.log &
-         
+        RETVAL=0
         ;;
     stop)
 
